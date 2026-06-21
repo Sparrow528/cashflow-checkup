@@ -1,891 +1,503 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>企业现金流压力测试 — 宇守信咨询</title>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:linear-gradient(180deg,#f1f5f9 0%,#cbd5e1 60%,#f8fafc 100%); color:#2d3436; padding-bottom:60px; }
-.header { background:linear-gradient(135deg,#334155,#475569); color:white; padding:32px 20px 24px; text-align:center; }
-.header h1 { font-size:22px; font-weight:700; margin-bottom:6px; }
-.header p { font-size:13px; opacity:0.85; }
+     1|<!DOCTYPE html>
+     2|<html lang="zh-CN">
+     3|<head>
+     4|<meta charset="UTF-8">
+     5|<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+     6|<title>企业现金流压力测试 — 宇守信咨询</title>
+    <!-- 🏷️ 版本 V2.0 — 2026-05-21 -->
+     7|<style>
+     8|* { margin:0; padding:0; box-sizing:border-box; }
+     9|body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:linear-gradient(180deg,#f1f5f9 0%,#cbd5e1 60%,#f8fafc 100%); color:#2d3436; padding-bottom:100px; }
+    10|.header { background:linear-gradient(135deg,#334155,#475569); color:white; padding:32px 20px 24px; text-align:center; }
+    11|.header h1 { font-size:22px; font-weight:700; margin-bottom:6px; }
+    12|.header p { font-size:13px; opacity:0.85; }
+    13|.header .v3-badge { display:inline-block; background:rgba(255,255,255,0.25); border:1px solid rgba(255,255,255,0.4); border-radius:4px; padding:2px 8px; font-size:10px; font-weight:700; margin-left:6px; vertical-align:middle; letter-spacing:1px; }
 .header .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:11px; margin-top:8px; }
-.tabs { display:flex; background:white; box-shadow:0 1px 4px rgba(0,0,0,0.08); position:sticky; top:0; z-index:10; }
-.tab { flex:1; text-align:center; padding:14px 0; font-size:14px; font-weight:500; color:#888; cursor:pointer; border-bottom:3px solid transparent; transition:all .2s; }
-.tab.active { color:#334155; border-bottom-color:#334155; }
-.panel { display:none; padding:16px; }
-.panel.active { display:block; }
-.card { background:white; border-radius:12px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.06); margin-bottom:12px; }
-.card-title { background:#f1f5f9; padding:10px 16px; font-size:13px; font-weight:600; color:#334155; border-bottom:1px solid #cbd5e1; }
-.form-row { padding:10px 16px; border-bottom:1px solid #f5f5f5; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.form-row label { font-size:13px; color:#444; min-width:150px; flex-shrink:0; }
-.form-row input,.form-row select { padding:8px 12px; border:1px solid #e0e0e0; border-radius:8px; font-size:13px; flex:1; min-width:80px; max-width:200px; background:#fff8e1; line-height:44px; height:44px; }
-.form-row input:focus,.form-row select:focus { outline:none; border-color:#64748b; }
-.form-row .unit { font-size:12px; color:#888; }
-.yesno { display:flex; gap:8px; }
-.yesno span { padding:4px 16px; border-radius:16px; font-size:13px; cursor:pointer; border:1px solid #ddd; color:#666; }
-.yesno span.sel-yes { background:linear-gradient(135deg,#334155,#475569); color:white; border-color:#64748b; }
-.yesno span.sel-no { background:#e2e8f0; color:#999; border-color:#ddd; }
-.fixed-bottom { position:sticky; bottom:0; background:white; padding:12px 16px; display:flex; gap:10px; box-shadow:0 -2px 8px rgba(0,0,0,0.06); z-index:10; }
-.fixed-bottom button { flex:1; padding:12px; border-radius:10px; font-size:14px; font-weight:600; border:none; cursor:pointer; }
-.btn-primary { background:linear-gradient(135deg,#334155,#475569); color:white; }
-.btn-primary:hover { opacity:0.9; }
-.btn-secondary { background:#e2e8f0; color:#555; }
-
-.return-bar { text-align:center; padding:16px; margin-top:4px; }
-.return-bar a { display:inline-block; padding:10px 24px; background:#f8fafc; color:#475569; border-radius:8px; font-size:13px; font-weight:600; text-decoration:none; border:1px solid #94a3b8; transition:all .2s; }
-.return-bar a:hover { background:#e2e8f0; }
-
-.table-header,.table-row { display:flex; padding:8px 12px; font-size:12px; border-bottom:1px solid #f0f0f0; }
-.table-header { background:#f1f5f9; font-weight:600; color:#334155; }
-.table-header span,.table-row span { flex:1; min-width:0; padding:0 4px; }
-.table-row span:first-child { flex:1.2; }
-.table-row span:nth-child(2) { flex:0.8; text-align:right; }
-.table-row span:nth-child(3) { flex:0.8; text-align:center; }
-.table-row span:nth-child(4) { flex:0.7; text-align:center; }
-.table-row span:nth-child(5) { flex:0.6; text-align:center; }
-
-.score-card { background:linear-gradient(135deg,#334155,#475569); color:white; border-radius:16px; padding:28px 20px; text-align:center; margin-bottom:16px; }
-.score-card .label { font-size:13px; opacity:0.85; }
-.score-card .score { font-size:40px; font-weight:800; margin:6px 0; }
-.score-card .grade { font-size:16px; font-weight:600; margin-bottom:4px; }
-.score-card .suggestion { font-size:13px; opacity:0.9; line-height:1.6; }
-.result-summary { background:linear-gradient(135deg,#334155,#475569); color:white; border-radius:16px; padding:28px 20px; text-align:center; margin-bottom:16px; }
-.result-summary .row { display:flex; justify-content:space-around; margin-top:12px; flex-wrap:wrap; gap:8px; }
-.result-summary .item { flex:1; min-width:100px; }
-.result-summary .item .label { font-size:11px; opacity:0.85; }
-.result-summary .item .val { font-size:22px; font-weight:800; margin:4px 0; }
-.result-summary .item .sub { font-size:12px; opacity:0.85; }
-
-.dim-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
-.dim-card { background:white; border-radius:12px; padding:16px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-.dim-card .name { font-size:12px; color:#888; margin-bottom:4px; }
-.dim-card .dscore { font-size:20px; font-weight:700; }
-.dim-card .dstatus { font-size:11px; margin-top:4px; padding:2px 10px; border-radius:10px; display:inline-block; }
-.low { background:#e6f7e6; color:#64748b; }
-.mid { background:#fef9e7; color:#d97706; }
-.high { background:#feeaea; color:#dc2626; }
-.pass { background:#e6f7e6; color:#64748b; }
-.warn { background:#fef9e7; color:#d97706; }
-.danger { background:#feeaea; color:#dc2626; }
-.fail { background:#feeaea; color:#dc2626; }
-.caution { background:#fef9e7; color:#d97706; }
-.rate-green { background:#e6f7e6; color:#64748b; }
-.rate-yellow { background:#fef9e7; color:#d97706; }
-.rate-red { background:#feeaea; color:#dc2626; }
-
-.help-card { background:white; border-radius:12px; padding:20px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-.help-card h3 { font-size:15px; margin-bottom:8px; color:#334155; }
-.help-card p,.help-card li { font-size:13px; color:#555; line-height:1.8; }
-.check-list { list-style:none; padding:0; }
-.check-list li { padding:6px 0; font-size:13px; color:#444; border-bottom:1px solid #f5f5f5; display:flex; align-items:center; gap:8px; }
-.check-list li:last-child { border-bottom:none; }
-.detail-item { padding:12px 16px; border-bottom:1px solid #f5f5f5; display:flex; justify-content:space-between; align-items:center; }
-.detail-item:last-child { border-bottom:none; }
-.detail-item .dlabel { font-size:13px; color:#555; }
-.detail-item .dval { font-size:14px; font-weight:600; }
-.detail-item .dval.pass { color:#64748b; }
-.detail-item .dval.warn { color:#d97706; }
-.detail-item .dval.danger { color:#dc2626; }
-.result-card { background:white; border-radius:12px; padding:16px; margin-bottom:8px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-.result-card h3 { font-size:14px; color:#334155; margin-bottom:8px; }
-.result-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #f5f5f5; font-size:13px; }
-.result-row:last-child { border-bottom:none; }
-.result-row .label { color:#555; }
-.result-row .val { font-weight:600; }
-.result-row.total { border-top:2px solid #334155; padding-top:8px; margin-top:4px; font-weight:700; }
-.result-row.total .val { color:#334155; font-size:16px; }
-.result-green { color:#64748b; }
-.result-red { color:#dc2626; }
-.result-orange { color:#d97706; }
-
-.member-banner { background:linear-gradient(135deg,#334155,#475569,#334155); border-radius:12px; padding:20px; text-align:center; margin-top:16px; }
-.member-banner h3 { font-size:15px; color:white; margin-bottom:6px; }
-.member-banner p { font-size:12px; color:rgba(255,255,255,0.85); line-height:1.6; }
-.member-banner .btn { display:inline-block; background:white; color:#334155; padding:8px 24px; border-radius:20px; text-decoration:none; font-size:13px; font-weight:600; margin-top:8px; }
-
-.contact { background:#f8fafc; border-radius:8px; padding:12px; }
-.contact strong { font-size:14px; color:#334155; }
-.scenario-grid { display:flex; gap:8px; }
-.scenario-btn { flex:1; padding:10px; border-radius:8px; font-size:13px; font-weight:600; border:2px solid #ddd; background:white; color:#888; cursor:pointer; text-align:center; transition:all .2s; }
-.scenario-btn.active { border-color:#64748b; color:#334155; background:#f8fafc; }
-.chart-area { background:white; border-radius:16px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,0.06); margin-bottom:16px; text-align:center; }
-.chart-area canvas { max-width:100%; height:auto; }
-.form-row input[type=range] { flex:1; min-width:120px; max-width:250px; accent-color:#64748b; }
-.form-row .val { font-size:14px; font-weight:700; color:#334155; min-width:30px; text-align:right; }
-.form-row .hint { font-size:11px; color:#999; }
-.dim-card .bar-bg { position:absolute; bottom:0; left:0; height:4px; background:#e2e8f0; width:100%; }
-.dim-card .bar-fill { position:absolute; bottom:0; left:0; height:4px; transition:width .5s; }
-
-@media (max-width:480px){.dim-grid{grid-template-columns:1fr 1fr}.result-summary .row{flex-direction:column;gap:4px}}
-
-
-/* ===== 打印/PDF样式 ===== */
-@media print {
-  body { background:white !important; padding:0 !important; margin:0 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-  .fixed-bottom, .no-print, .marketing, [class*="返回"], footer, .footer, #返回, .return-bar, .bottom-bar { display:none !important; }
-  .header { background:linear-gradient(135deg,#334155,#475569) !important; color:white !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; padding:20px 16px !important; }
-  .card, .dim-card, .check-item, .result-card { break-inside:avoid; page-break-inside:avoid; border:1px solid #ddd !important; box-shadow:none !important; }
-  .score-card, .result-summary { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-  .tabs { display:none !important; }
-  .panel { display:block !important; padding:10px !important; }
-  .dim-grid { display:grid !important; grid-template-columns:1fr 1fr !important; gap:8px !important; }
-  .form-row { padding:6px 10px !important; }
-  a[href]:after { content:none !important; }
-}
-
-.pdf-btn { background:linear-gradient(135deg,#b8860b,#d4a843) !important; }
-</style>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
-</head>
-<body>
-
-<div class="header">
-  <h1>💰 企业现金流压力测试 <span style="display:inline-block;background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;margin-left:6px;vertical-align:middle;letter-spacing:1px">V3.0</span></h1>
-  <p>流动性评估 · 现金循环 · 偿债压力 · 资金缺口</p>
-  <div class="badge">您身边的财税专家 · 洪淳宇</div>
-</div>
-
-<div class="tabs" id="tabNav">
-  <div class="tab active" data-tab="input" onclick="switchTab('input')">📝 填数据</div>
-  <div class="tab" data-tab="report" onclick="switchTab('report')">📊 测试报告</div>
-  <div class="tab" data-tab="help" onclick="switchTab('help')">❓ 说明</div>
-</div>
-
-<!-- ===== 数据录入 ===== -->
-<div class="panel active" id="panel-input">
-  <!-- ===== 新增：上传入口 ===== -->
-  <div class="card" style="border:2px dashed #64748b;background:#f8fafc;">
-    <div class="card-title" style="background:#e8f0fe;">📤 上传报表自动填入</div>
-    <div class="form-row" style="flex-direction:column;align-items:stretch;gap:8px;">
-      <div style="font-size:13px;color:#555;line-height:1.6;">
-        上传资产负债表、利润表及现金流量表的<strong>Excel文件</strong>（.xls/.xlsx），
-        自动识别数据并填入下方表单。<strong>支持分开上传</strong>，先传资产负债表再传利润表，数据不会覆盖。
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <label style="flex:1;padding:12px 16px;background:#64748b;color:white;border-radius:8px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;">
-          📂 选择Excel文件
-          <input type="file" id="fileInput" accept=".xls,.xlsx" style="display:none;" onchange="parseExcel(event)">
-        </label>
-        <button onclick="clearUpload()" style="padding:12px 20px;background:#e2e8f0;color:#555;border:none;border-radius:8px;font-size:13px;cursor:pointer;">🗑️ 清除已导入数据</button>
-      </div>
-      <div id="uploadStatus" style="font-size:12px;color:#888;min-height:18px;margin-top:4px;"></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🏢 企业基础信息</div>
-    <div class="form-row"><label>企业名称</label><input id="f_企业名称" placeholder="选填"></div>
-    <div class="form-row"><label>所属行业</label>
-      <select id="f_行业" style="padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;">
-        <option value="制造业">制造业</option>
-        <option value="商贸零售">商贸零售</option>
-        <option value="服务业">服务业</option>
-        <option value="建筑业">建筑业</option>
-        <option value="房地产">房地产</option>
-        <option value="科技">科技/信息技术</option>
-        <option value="其他">其他</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📊 资产负债表数据（万元）</div>
-    <div class="form-row"><label>流动资产（期末）</label><input id="f_流动资产" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>其中：货币资金</label><input id="f_货币资金" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>应收账款（期末）</label><input id="f_应收账款" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>存货（期末）</label><input id="f_存货" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>应付账款（期末）</label><input id="f_应付账款" type="number" placeholder="0"><span class="unit">万元，用于计算周转天数</span></div>
-    <div class="form-row"><label>流动负债（期末）</label><input id="f_流动负债" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>短期借款</label><input id="f_短期借款" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>负债总额（期末）</label><input id="f_负债总额" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>资产总额（期末）</label><input id="f_资产总额" type="number" placeholder="0"><span class="unit">万元</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📈 利润表数据（当期，万元）</div>
-    <div class="form-row"><label>营业收入（年化）</label><input id="f_营业收入" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>营业成本（年化）</label><input id="f_营业成本" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>净利润</label><input id="f_净利润" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>利息支出</label><input id="f_利息支出" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>折旧与摊销</label><input id="f_折旧摊销" type="number" placeholder="0"><span class="unit">万元</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🔄 现金流数据（万元）</div>
-    <div class="form-row"><label>经营活动现金流入</label><input id="f_经营流入" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>经营活动现金流出</label><input id="f_经营流出" type="number" placeholder="0"><span class="unit">万元</span></div>
-    <div class="form-row"><label>投资活动现金净额</label><input id="f_投资净额" type="number" placeholder="0"><span class="unit">万元（正=流入）</span></div>
-    <div class="form-row"><label>筹资活动现金净额</label><input id="f_筹资净额" type="number" placeholder="0"><span class="unit">万元（正=流入）</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📅 营运周期数据（天） <span style="font-weight:400;font-size:12px;color:#888;">自动根据上方数据计算</span></div>
-    <div class="form-row"><label>平均应收账款周转天数</label><input id="f_应收天数" type="number" placeholder="自动计算" readonly style="background:#f1f5f9;"><span class="unit">天</span></div>
-    <div class="form-row"><label>平均应付账款周转天数</label><input id="f_应付天数" type="number" placeholder="自动计算" readonly style="background:#f1f5f9;"><span class="unit">天</span></div>
-    <div class="form-row"><label>平均存货周转天数</label><input id="f_存货天数" type="number" placeholder="自动计算" readonly style="background:#f1f5f9;"><span class="unit">天</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">⚠️ 压力场景模拟</div>
-    <div class="form-row">
-      <label>假设收入下降</label>
-      <select id="f_收入下降" style="padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;">
-        <option value="0">无压力</option>
-        <option value="10">下降10%</option>
-        <option value="20" selected>下降20%</option>
-        <option value="30">下降30%</option>
-        <option value="50">下降50%</option>
-      </select>
-      <span class="hint">模拟收入下滑对现金流的影响</span>
-    </div>
-    <div class="form-row">
-      <label>应收账款延期</label>
-      <select id="f_应收延期" style="padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;">
-        <option value="0">无延期</option>
-        <option value="15">延期15天</option>
-        <option value="30" selected>延期30天</option>
-        <option value="60">延期60天</option>
-        <option value="90">延期90天</option>
-      </select>
-      <span class="hint">模拟回款变慢对现金循环的影响</span>
-    </div>
-  </div>
-
-  <div class="fixed-bottom">
-    <button class="btn-secondary" onclick="resetAll()">清空</button>
-    <button class="btn-primary" onclick="calcReport()">📊 开始测试</button>
-  </div>
-
-  <div class="return-bar">
-    <a href="https://sparrow528.github.io/silver-toolbox/">← 返回银级工具入口</a>
-  </div>
-</div>
-
-<!-- ===== 测试报告 ===== -->
-<div class="panel" id="panel-report">
-  <div id="scoreCard" class="score-card">
-    <div class="label">现金流健康评分</div>
-    <div class="score">—</div>
-    <div class="grade">请先在「填数据」页面录入数据</div>
-    <div class="suggestion"></div>
-  </div>
-  <div id="dimGrid" class="dim-grid"></div>
-  <div id="stressNote" style="margin-bottom:12px;font-size:12px;color:#888;text-align:center;"></div>
-  <div class="card">
-    <div class="card-title">📋 各项指标明细</div>
-    <div class="indicator-table">
-      <div class="table-header">
-        <span>指标</span><span>实际值</span><span>健康标准</span><span>行业参考</span><span>状态</span>
-      </div>
-      <div id="indicatorRows"></div>
-    </div>
-  </div>
-  <div class="fixed-bottom">
-    <button class="btn-secondary" onclick="switchTab('input')">← 修改数据</button>
-    <button class="btn-primary" onclick="shareResult()">📤 分享报告</button>
-  </div>
-  <div class="return-bar">
-    <a href="https://sparrow528.github.io/silver-toolbox/">← 返回银级工具入口</a>
-  </div>
-</div>
-
-<!-- ===== 说明 ===== -->
-<div class="panel" id="panel-help">
-  <div class="help-card">
-    <h3>📋 使用方法</h3>
-    <ol>
-      <li>在「填数据」页录入资产负债表、利润表、现金流等数据</li>
-      <li>选择压力场景参数（收入下降比例、应收账款延期天数）</li>
-      <li>点击「开始测试」，系统自动计算并评估现金流健康度</li>
-    </ol>
-  </div>
-  <div class="help-card">
-    <h3>📊 评估维度</h3>
-    <ul>
-      <li><strong>流动性</strong> — 流动比率、速动比率、现金比率</li>
-      <li><strong>现金循环周期</strong> — 应收+存货-应付，天数越短越好</li>
-      <li><strong>现金流质量</strong> — 经营现金流/营业收入，利润现金保障倍数</li>
-      <li><strong>偿债能力</strong> — 利息保障倍数、经营现金流/流动负债</li>
-      <li><strong>资金压力</strong> — 收入下降+应收延期后的压力测试结果</li>
-    </ul>
-  </div>
-  <div class="help-card">
-    <h3>🟢 评分规则</h3>
-    <p><span class="status-green">✓ 健康</span> — 指标在安全范围内，得满分</p>
-    <p><span class="status-yellow">⚠ 关注</span> — 指标偏离安全范围，得60%分</p>
-    <p><span class="status-red">✗ 风险</span> — 指标严重偏离，得分较低</p>
-  </div>
-  <div class="help-card">
-    <h3>👤 关于作者</h3>
-    <div class="contact">
-      <strong>洪淳宇 · 您身边的财税专家</strong>
-      <p>专注企业现金流管理、财务健康诊断、税务合规与筹划</p>
-      <p style="margin-top:6px;">📞 186-0129-4989 | 💬 hongchunyu042896</p>
-    </div>
-  </div>
-  <div class="return-bar">
-    <a href="https://sparrow528.github.io/silver-toolbox/">← 返回银级工具入口</a>
-  </div>
-</div>
-
-<script>
-// ===== 行业标准参考值 =====
-const INDUSTRY_STD = {
-  "制造业": {
-    "流动比率": {std:"1.5~2.5", avg:1.8},
-    "速动比率": {std:"≥ 0.8", avg:0.9},
-    "现金比率": {std:"≥ 0.3", avg:0.35},
-    "现金循环周期": {std:"≤ 90天", avg:75},
-    "应收周转": {std:"≤ 60天", avg:55},
-    "存货周转": {std:"≤ 90天", avg:80},
-    "经营现金流占比": {std:"≥ 8%", avg:10},
-    "利润现金保障": {std:"≥ 0.8", avg:1.0},
-    "利息保障": {std:"≥ 3.0", avg:4.0},
-    "经营现金流偿债": {std:"≥ 15%", avg:18},
-    "资产负债率": {std:"30%~60%", avg:50},
-  },
-  "商贸零售": {
-    "流动比率": {std:"1.2~2.0", avg:1.5},
-    "速动比率": {std:"≥ 0.6", avg:0.7},
-    "现金比率": {std:"≥ 0.2", avg:0.25},
-    "现金循环周期": {std:"≤ 45天", avg:35},
-    "应收周转": {std:"≤ 30天", avg:25},
-    "存货周转": {std:"≤ 45天", avg:40},
-    "经营现金流占比": {std:"≥ 5%", avg:6},
-    "利润现金保障": {std:"≥ 0.6", avg:0.8},
-    "利息保障": {std:"≥ 2.0", avg:3.0},
-    "经营现金流偿债": {std:"≥ 10%", avg:12},
-    "资产负债率": {std:"40%~70%", avg:60},
-  },
-  "服务业": {
-    "流动比率": {std:"1.3~2.2", avg:1.6},
-    "速动比率": {std:"≥ 0.9", avg:1.0},
-    "现金比率": {std:"≥ 0.3", avg:0.4},
-    "现金循环周期": {std:"≤ 30天", avg:20},
-    "应收周转": {std:"≤ 30天", avg:25},
-    "存货周转": {std:"≤ 30天", avg:20},
-    "经营现金流占比": {std:"≥ 10%", avg:12},
-    "利润现金保障": {std:"≥ 1.0", avg:1.2},
-    "利息保障": {std:"≥ 4.0", avg:5.0},
-    "经营现金流偿债": {std:"≥ 20%", avg:22},
-    "资产负债率": {std:"30%~55%", avg:45},
-  },
-  "建筑业": {
-    "流动比率": {std:"1.3~2.0", avg:1.5},
-    "速动比率": {std:"≥ 0.7", avg:0.8},
-    "现金比率": {std:"≥ 0.2", avg:0.25},
-    "现金循环周期": {std:"≤ 120天", avg:100},
-    "应收周转": {std:"≤ 90天", avg:75},
-    "存货周转": {std:"≤ 120天", avg:100},
-    "经营现金流占比": {std:"≥ 5%", avg:6},
-    "利润现金保障": {std:"≥ 0.5", avg:0.7},
-    "利息保障": {std:"≥ 2.0", avg:2.5},
-    "经营现金流偿债": {std:"≥ 10%", avg:12},
-    "资产负债率": {std:"50%~75%", avg:65},
-  },
-  "房地产": {
-    "流动比率": {std:"1.5~2.5", avg:1.8},
-    "速动比率": {std:"≥ 0.5", avg:0.6},
-    "现金比率": {std:"≥ 0.2", avg:0.25},
-    "现金循环周期": {std:"≤ 180天", avg:150},
-    "应收周转": {std:"≤ 60天", avg:50},
-    "存货周转": {std:"≤ 365天", avg:300},
-    "经营现金流占比": {std:"≥ 5%", avg:6},
-    "利润现金保障": {std:"≥ 0.5", avg:0.6},
-    "利息保障": {std:"≥ 2.0", avg:2.5},
-    "经营现金流偿债": {std:"≥ 10%", avg:12},
-    "资产负债率": {std:"50%~70%", avg:60},
-  },
-  "科技": {
-    "流动比率": {std:"1.8~3.0", avg:2.2},
-    "速动比率": {std:"≥ 1.2", avg:1.5},
-    "现金比率": {std:"≥ 0.5", avg:0.6},
-    "现金循环周期": {std:"≤ 60天", avg:50},
-    "应收周转": {std:"≤ 45天", avg:40},
-    "存货周转": {std:"≤ 60天", avg:50},
-    "经营现金流占比": {std:"≥ 12%", avg:15},
-    "利润现金保障": {std:"≥ 1.2", avg:1.5},
-    "利息保障": {std:"≥ 5.0", avg:6.0},
-    "经营现金流偿债": {std:"≥ 25%", avg:28},
-    "资产负债率": {std:"25%~50%", avg:40},
-  },
-  "其他": {}
-};
-function getIndStd(indName, indicatorName) {
-  const ind = INDUSTRY_STD[indName] || {};
-  const v = ind[indicatorName];
-  return v ? {std:v.std, avg:v.avg} : getDefaultStd(indicatorName);
-}
-function getDefaultStd(name) {
-  const m = {
-    "流动比率":{std:"≥ 2.0",avg:2.0},"速动比率":{std:"≥ 1.0",avg:1.0},"现金比率":{std:"≥ 0.3",avg:0.3},
-    "现金循环周期":{std:"≤ 60天",avg:60},"应收周转":{std:"≤ 45天",avg:45},"存货周转":{std:"≤ 60天",avg:60},
-    "经营现金流占比":{std:"≥ 10%",avg:10},"利润现金保障":{std:"≥ 1.0",avg:1.0},"利息保障":{std:"≥ 2.0",avg:2.0},
-    "经营现金流偿债":{std:"≥ 20%",avg:20},"资产负债率":{std:"≤ 50%",avg:50},
-  };
-  return m[name] || {std:"—",avg:null};
-}
-
-// ===== 指标定义 =====
-function getINDICATORS() {
-  var indName = document.getElementById('f_行业') ? document.getElementById('f_行业').value : '其他';
-  return [
-  {
-    id:"流动比率", dim:"流动性", name:"流动比率", unit:"", maxScore:5,
-    calc: d => d.流动资产 > 0 && d.流动负债 > 0 ? d.流动资产 / d.流动负债 : null,
-    green: v => v >= 2.0, yellow: v => v >= 1.0,
-    std: getIndStd(indName, '流动比率').std
-  },
-  {
-    id:"速动比率", dim:"流动性", name:"速动比率", unit:"", maxScore:5,
-    calc: d => d.流动资产 > 0 && d.存货 !== null && d.流动负债 > 0 ? (d.流动资产 - d.存货) / d.流动负债 : null,
-    green: v => v >= 1.0, yellow: v => v >= 0.5,
-    std: getIndStd(indName, '速动比率').std
-  },
-  {
-    id:"现金比率", dim:"流动性", name:"现金比率", unit:"", maxScore:4,
-    calc: d => d.货币资金 > 0 && d.流动负债 > 0 ? d.货币资金 / d.流动负债 : null,
-    green: v => v >= 0.5, yellow: v => v >= 0.2,
-    std: getIndStd(indName, '现金比率').std
-  },
-  {
-    id:"现金循环周期", dim:"现金循环", name:"现金循环周期", unit:"天", maxScore:5,
-    calc: d => (d.应收天数 > 0 || d.存货天数 > 0 || d.应付天数 > 0) ? d.应收天数 + d.存货天数 - d.应付天数 : null,
-    green: v => v <= 60, yellow: v => v <= 120,
-    std: getIndStd(indName, '现金循环周期').std
-  },
-  {
-    id:"应收周转", dim:"现金循环", name:"应收账款周转天数", unit:"天", maxScore:3,
-    calc: d => d.应收天数 > 0 ? d.应收天数 : null,
-    green: v => v <= 45, yellow: v => v <= 90,
-    std: getIndStd(indName, '应收周转').std
-  },
-  {
-    id:"存货周转", dim:"现金循环", name:"存货周转天数", unit:"天", maxScore:3,
-    calc: d => d.存货天数 > 0 ? d.存货天数 : null,
-    green: v => v <= 60, yellow: v => v <= 120,
-    std: getIndStd(indName, '存货周转').std
-  },
-  {
-    id:"经营现金流占比", dim:"现金流质量", name:"经营现金流/营业收入", unit:"%", maxScore:5,
-    calc: d => d.营业收入 > 0 && (d.经营流入 !== null || d.经营流出 !== null) ? (d.经营流入 - d.经营流出) / d.营业收入 * 100 : null,
-    green: v => v >= 10, yellow: v => v >= 5,
-    std: getIndStd(indName, '经营现金流占比').std
-  },
-  {
-    id:"利润现金保障", dim:"现金流质量", name:"利润现金保障倍数", unit:"", maxScore:4,
-    calc: d => d.净利润 !== 0 ? (d.经营流入 - d.经营流出) / d.净利润 : null,
-    green: v => v >= 1.0, yellow: v => v >= 0.5,
-    std: getIndStd(indName, '利润现金保障').std
-  },
-  {
-    id:"利息保障", dim:"偿债能力", name:"利息保障倍数", unit:"", maxScore:5,
-    calc: d => d.利息支出 > 0 ? (d.净利润 + d.利息支出) / d.利息支出 : null,
-    green: v => v >= 5, yellow: v => v >= 2,
-    std: getIndStd(indName, '利息保障').std
-  },
-  {
-    id:"经营现金流偿债", dim:"偿债能力", name:"经营现金流/流动负债", unit:"%", maxScore:4,
-    calc: d => d.流动负债 > 0 && (d.经营流入 !== null || d.经营流出 !== null) ? (d.经营流入 - d.经营流出) / d.流动负债 * 100 : null,
-    green: v => v >= 20, yellow: v => v >= 10,
-    std: getIndStd(indName, '经营现金流偿债').std
-  },
-  {
-    id:"资产负债率", dim:"偿债能力", name:"资产负债率", unit:"%", maxScore:3,
-    calc: d => d.资产总额 > 0 ? d.负债总额 / d.资产总额 * 100 : null,
-    green: v => v <= 50, yellow: v => v <= 70,
-    std: getIndStd(indName, '资产负债率').std
-  },
-  {
-    id:"压力测试", dim:"资金压力", name:"收入下降+应收延期影响", unit:"", maxScore:5,
-    calc: d => d._stressScore || null,
-    green: v => v >= 80, yellow: v => v >= 60,
-    std: "压力场景下现金流仍可维持"
-  }
-];
-}
-
-const DIM_ORDER = ["流动性","现金循环","现金流质量","偿债能力","资金压力"];
-
-const DIM_MAX = {
-  "流动性": 14, "现金循环": 11, "现金流质量": 9, "偿债能力": 12, "资金压力": 5
-};
-
-function getVal(id) {
-  const el = document.getElementById("f_" + id);
-  if (!el) return 0;
-  if (el.type === "number") return parseFloat(el.value) || 0;
-  if (el.tagName === "SELECT") return parseFloat(el.value) || 0;
-  return 0;
-}
-
-function getText(id) {
-  const el = document.getElementById("f_" + id);
-  return el ? el.value : "";
-}
-
-function resetAll() {
-  if (!confirm("确定要清空所有数据吗？")) return;
-  document.querySelectorAll("#panel-input input").forEach(el => el.value = "");
-  document.querySelectorAll("#panel-input select").forEach(el => el.selectedIndex = 0);
-}
-
-function calcTurnoverDays() {
-  var 应收 = parseFloat(document.getElementById('f_应收账款').value) || 0;
-  var 应付 = parseFloat(document.getElementById('f_应付账款').value) || 0;
-  var 存货 = parseFloat(document.getElementById('f_存货').value) || 0;
-  var 营收 = parseFloat(document.getElementById('f_营业收入').value) || 0;
-  var 成本 = parseFloat(document.getElementById('f_营业成本').value) || 0;
-  if (营收 > 0 && 应收 > 0) document.getElementById('f_应收天数').value = Math.round(应收 / 营收 * 365);
-  if (成本 > 0 && 应付 > 0) document.getElementById('f_应付天数').value = Math.round(应付 / 成本 * 365);
-  if (成本 > 0 && 存货 > 0) document.getElementById('f_存货天数').value = Math.round(存货 / 成本 * 365);
-}
-
-function calcReport() {
-  calcTurnoverDays();
-  const d = {
-    流动资产: getVal("流动资产"), 货币资金: getVal("货币资金"),
-    应收账款: getVal("应收账款"), 存货: getVal("存货"),
-    流动负债: getVal("流动负债"), 短期借款: getVal("短期借款"),
-    负债总额: getVal("负债总额"), 资产总额: getVal("资产总额"),
-    营业收入: getVal("营业收入"), 营业成本: getVal("营业成本"),
-    净利润: getVal("净利润"), 利息支出: getVal("利息支出"),
-    折旧摊销: getVal("折旧摊销"),
-    经营流入: getVal("经营流入"), 经营流出: getVal("经营流出"),
-    投资净额: getVal("投资净额"), 筹资净额: getVal("筹资净额"),
-    应收天数: getVal("应收天数"), 应付天数: getVal("应付天数"),
-    存货天数: getVal("存货天数")
-  };
-
-  const 收入下降 = getVal("收入下降") / 100;
-  const 应收延期 = getVal("应收延期");
-
-  // 压力测试评分
-  let stressScore = 100;
-  const 经营现金流 = d.经营流入 - d.经营流出;
-  const 模拟后收入 = d.营业收入 * (1 - 收入下降);
-  const 模拟后经营流入 = d.经营流入 * (1 - 收入下降);
-  const 模拟后经营现金流 = 模拟后经营流入 - d.经营流出;
-  const 模拟后应收天数 = d.应收天数 + 应收延期;
-
-  // 扣分逻辑
-  if (模拟后经营现金流 < 0) stressScore -= 30;
-  else if (模拟后经营现金流 < 经营现金流 * 0.5) stressScore -= 15;
-
-  if (模拟后应收天数 > 90) stressScore -= 20;
-  else if (模拟后应收天数 > 60) stressScore -= 10;
-
-  if (d.流动负债 > 0 && 模拟后经营现金流 / d.流动负债 * 100 < 5) stressScore -= 15;
-  else if (d.流动负债 > 0 && 模拟后经营现金流 / d.流动负债 * 100 < 10) stressScore -= 8;
-
-  if (d.货币资金 > 0 && d.流动负债 > 0 && 模拟后经营现金流 < 0) {
-    const 可支撑月数 = d.货币资金 / (Math.abs(模拟后经营现金流) / 12);
-    if (可支撑月数 < 3) stressScore -= 20;
-    else if (可支撑月数 < 6) stressScore -= 10;
-  }
-
-  d._stressScore = Math.max(0, stressScore);
-
-  // 计算指标
-  const results = getINDICATORS().map(ind => {
-    let val = null;
-    try { val = ind.calc(d); } catch(e) {}
-    let score = 0, status = "red", statusText = "✗ 风险";
-    if (val !== null && !isNaN(val)) {
-      if (ind.green(val)) { score = ind.maxScore; status = "green"; statusText = "✓ 健康"; }
-      else if (ind.yellow(val)) { score = Math.round(ind.maxScore * 0.6); status = "yellow"; statusText = "⚠ 关注"; }
-      else { score = Math.round(ind.maxScore * 0.2); status = "red"; statusText = "✗ 风险"; }
-    }
-    let valStr = val !== null && !isNaN(val) ? (ind.unit === "%" ? val.toFixed(1)+"%" : val.toFixed(2)) : "—";
-    return { ...ind, val, valStr, score, status, statusText };
-  });
-
-  // 维度汇总
-  const dimScores = {};
-  results.forEach(r => {
-    if (!dimScores[r.dim]) dimScores[r.dim] = { actual: 0, max: 0 };
-    dimScores[r.dim].actual += r.score;
-    dimScores[r.dim].max += r.maxScore;
-  });
-
-  const totalScore = Object.values(dimScores).reduce((s, d) => s + d.actual, 0);
-  const totalMax = Object.values(DIM_MAX).reduce((s, m) => s + m, 0);
-  const rate = totalMax > 0 ? Math.round(totalScore / totalMax * 100) : 0;
-
-  // 评级
-  let grade, suggestion;
-  if (rate >= 85) { grade = "🟢 现金流健康"; suggestion = "🎉 现金流状况良好，抗压能力强"; }
-  else if (rate >= 70) { grade = "🟡 基本健康"; suggestion = "📌 部分指标需关注，建议优化营运资金管理"; }
-  else if (rate >= 55) { grade = "🟠 存在压力"; suggestion = "⚠️ 现金流有一定压力，建议尽快排查薄弱环节"; }
-  else { grade = "🔴 现金流紧张"; suggestion = "⚠️ 现金流压力较大，强烈建议立即进行资金规划"; }
-
-  document.getElementById("scoreCard").innerHTML =
-    `<div class="label">现金流健康评分</div>
-     <div class="score">${totalScore}/${totalMax}</div>
-     <div class="grade">${grade}</div>
-     <div class="suggestion">${suggestion}</div>`;
-
-  // 维度卡片
-  const dimGrid = document.getElementById("dimGrid");
-  dimGrid.innerHTML = DIM_ORDER.map(dim => {
-    const s = dimScores[dim] || { actual: 0, max: DIM_MAX[dim] || 10 };
-    const r = s.max > 0 ? Math.round(s.actual / s.max * 100) : 0;
-    let color = "#64748b", cls = "rate-green";
-    if (r < 60) { color = "#dc2626"; cls = "rate-red"; }
-    else if (r < 80) { color = "#d97706"; cls = "rate-yellow"; }
-    return `<div class="dim-card">
-      <div class="name">${dim}</div>
-      <div class="dscore" style="color:${color}">${s.actual}</div>
-      <div class="dmax">/ ${s.max || DIM_MAX[dim] || 10} 分</div>
-      <div class="dstatus ${cls}">${r}%</div>
-    </div>`;
-  }).join("");
-
-  // 压力说明
-  const stressEl = document.getElementById("stressNote");
-  if (收入下降 > 0 || 应收延期 > 0) {
-    stressEl.innerHTML = `⚠️ 压力场景：收入下降 ${收入下降*100}%${应收延期>0 ? ` + 应收延期 ${应收延期}天` : ''}  ·  压力测试得分：${d._stressScore}分`;
-    stressEl.style.color = d._stressScore >= 60 ? "#64748b" : "#dc2626";
-  } else {
-    stressEl.innerHTML = "💡 未启用压力场景，显示正常经营状态评估";
-    stressEl.style.color = "#888";
-  }
-
-  // 指标明细
-  const rows = document.getElementById("indicatorRows");
-  const clsMap = { green: "status-green", yellow: "status-yellow", red: "status-red" };
-  var indName = document.getElementById('f_行业') ? document.getElementById('f_行业').value : '其他';
-  rows.innerHTML = results.map(r => {
-    var avgVal = getIndStd(indName, r.id).avg;
-    var avgStr = avgVal !== null && avgVal !== undefined ? (typeof avgVal === 'number' && avgVal % 1 !== 0 ? avgVal.toFixed(1) : avgVal) : '—';
-    return `<div class="table-row">
-      <span>${r.name}</span>
-      <span>${r.valStr}</span>
-      <span>${r.std}</span>
-      <span style="color:#555;">${avgStr}</span>
-      <span class="${clsMap[r.status]||''}">${r.statusText}</span>
-    </div>`;
-  }).join("");
-
-  switchTab("report");
-}
-
-function switchTab(name) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === name));
-  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
-  window.scrollTo(0, 0);
-}
-
-function shareResult() {
-  alert("📱 请截屏保存本页面，即可分享给客户！\n\n或点击右上角「···」选择「发送给朋友」");
-}
-
-// ===== Excel上传解析 =====
-function parseExcel(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const status = document.getElementById('uploadStatus');
-  status.textContent = '⏳ 正在解析Excel文件...';
-  status.style.color = '#888';
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const wb = XLSX.read(e.target.result, {type:'array', codepage:936});
-      let bsData=null, plData=null, cfData=null;
-      let foundSheets = [];
-      wb.SheetNames.forEach(name => {
-        const ws = wb.Sheets[name];
-        const json = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
-        foundSheets.push(name+'('+json.length+'行)');
-        var flat = json.flat().join('');
-        var hasIncome = flat.includes('营业收入') || flat.includes('营业成本') || flat.includes('净利润') || flat.includes('利润总额');
-        var hasBS = (flat.includes('资产总计') || flat.includes('流动资产')) && (flat.includes('负债') || flat.includes('所有者权益'));
-        var hasCF = flat.includes('经营活动现金流入') || flat.includes('经营活动现金流出') || flat.includes('投资活动') || flat.includes('筹资活动');
-        if (hasCF) cfData = json;
-        else if (hasIncome && !hasBS) plData = json;
-        else if (hasBS && !hasIncome) bsData = json;
-        else if (hasBS && hasIncome) {
-          // 同时有BS和PL，按优先级：先判断已有数据缺什么
-          var bsFilled = document.getElementById('f_流动资产').value || document.getElementById('f_资产总额').value;
-          var plFilled = document.getElementById('f_营业收入').value || document.getElementById('f_净利润').value;
-          if (bsFilled && !plFilled) plData = json;
-          else if (plFilled && !bsFilled) bsData = json;
-          else { bsData = json; plData = json; }
-        }
-      });
-      let filled = [];
-      if (bsData) { parseBS(bsData); filled.push('资产负债表'); }
-      if (plData) { parsePL(plData); filled.push('利润表'); }
-      if (cfData) { parseCF(cfData); filled.push('现金流量表'); }
-      if (filled.length > 0) {
-        status.textContent = '✅ 已识别 ' + filled.join('+') + '，数据已自动填入下方表单！';
-        status.style.color = '#64748b';
-        calcTurnoverDays();
-      } else {
-        status.textContent = '⚠️ 未识别到三大表。检测到Sheet: ' + foundSheets.join(', ') + '。请手动填入数据。';
-        status.style.color = '#d97706';
-      }
-    } catch(err) {
-      status.textContent = '❌ 解析失败：' + err.message;
-      status.style.color = '#dc2626';
-    }
-  };
-  reader.readAsArrayBuffer(file);
-  event.target.value = '';
-}
-
-// ---- 辅助函数 ----
-function detectDataCol(rows, preferKeywords=['期末数','期末余额','期末','本年累计','本年累计数','年末数']) {
-  for (let r=0; r<Math.min(rows.length, 5); r++) {
-    for (let c=0; c<rows[r].length; c++) {
-      const cell = String(rows[r][c]||'').trim();
-      for (let kw of preferKeywords) {
-        if (cell.includes(kw)) return c;
-      }
-    }
-  }
-  for (let c=rows[0].length-1; c>=0; c--) {
-    const header = String(rows[0][c]||'').trim();
-    if (!header.includes('行次') && !header.includes('序号')) {
-      let hasNum = false;
-      for (let r=1; r<Math.min(rows.length, 10); r++) {
-        if (!isNaN(parseFloat(rows[r][c]))) { hasNum = true; break; }
-      }
-      if (hasNum) return c;
-    }
-  }
-  return Math.min(rows[0].length-1, 3);
-}
-
-function findSmart(rows, labelLikes, dataCol) {
-  if (!Array.isArray(labelLikes)) labelLikes = [labelLikes];
-  function isTitleRow(cell) { return cell && (cell.trim().endsWith('：') || cell.trim().endsWith(':')); }
-  for (let r of rows) {
-    for (let i=0; i<r.length; i++) {
-      const cell = String(r[i]||'').trim();
-      if (isTitleRow(cell)) continue;
-      const matched = labelLikes.some(lb => cell.includes(lb));
-      if (!matched) continue;
-      if (dataCol !== undefined && dataCol < r.length) {
-        let val = parseFloat(r[dataCol]);
-        if (!isNaN(val)) return val;
-      }
-    }
-  }
-  for (let r of rows) {
-    for (let i=0; i<r.length; i++) {
-      const cell = String(r[i]||'').trim();
-      if (isTitleRow(cell)) continue;
-      const matched = labelLikes.some(lb => cell.includes(lb));
-      if (!matched) continue;
-      if (dataCol !== undefined && dataCol < r.length) {
-        let val = parseFloat(r[dataCol]);
-        if (!isNaN(val)) return val;
-      }
-      for (let j=i+1; j<r.length; j++) {
-        const v = parseFloat(r[j]);
-        if (!isNaN(v)) return v;
-      }
-    }
-  }
-  return 0;
-}
-
-function setInputVal(elId, val) {
-  var el = document.getElementById(elId);
-  if (!el) return false;
-  if (val === null || val === undefined || isNaN(val)) return false;
-  if (el.value && parseFloat(el.value) !== 0) return false;
-  el.value = val;
-  return true;
-}
-
-// ---- 资产负债表解析 ----
-function parseBS(rows) {
-  // 判断是否为左右对称格式（8列左右）
-  var isLeftRight = rows[0].length >= 8;
-  var dataColL = 3;   // 左侧期末数通常在列3
-  var dataColR = 7;   // 右侧期末数通常在列7
-  if (!isLeftRight) {
-    dataColL = detectDataCol(rows);
-    dataColR = dataColL;
-  }
-  // 左侧资产
-  setInputVal('f_流动资产', findSmart(rows, ['流动资产合计','流动资产'], dataColL));
-  setInputVal('f_货币资金', findSmart(rows, ['货币资金','库存现金','银行存款'], dataColL));
-  setInputVal('f_应收账款', findSmart(rows, ['应收账款'], dataColL));
-  setInputVal('f_存货', findSmart(rows, ['存货','库存商品'], dataColL));
-  setInputVal('f_资产总额', findSmart(rows, ['资产总计','资产总额'], dataColL));
-  // 右侧负债
-  setInputVal('f_应付账款', findSmart(rows, ['应付账款','应付票据'], dataColR));
-  setInputVal('f_流动负债', findSmart(rows, ['流动负债合计','流动负债'], dataColR));
-  setInputVal('f_短期借款', findSmart(rows, ['短期借款'], dataColR));
-  setInputVal('f_负债总额', findSmart(rows, ['负债合计','负债总额'], dataColR));
-  // 如果左右不对称，用左侧数据列试右侧字段
-  if (!isLeftRight) {
-    if (!document.getElementById('f_应付账款').value || parseFloat(document.getElementById('f_应付账款').value) === 0) {
-      setInputVal('f_应付账款', findSmart(rows, ['应付账款','应付票据'], dataColL));
-    }
-    if (!document.getElementById('f_流动负债').value || parseFloat(document.getElementById('f_流动负债').value) === 0) {
-      setInputVal('f_流动负债', findSmart(rows, ['流动负债合计','流动负债'], dataColL));
-    }
-    if (!document.getElementById('f_负债总额').value || parseFloat(document.getElementById('f_负债总额').value) === 0) {
-      setInputVal('f_负债总额', findSmart(rows, ['负债合计','负债总额'], dataColL));
-    }
-    if (!document.getElementById('f_短期借款').value || parseFloat(document.getElementById('f_短期借款').value) === 0) {
-      setInputVal('f_短期借款', findSmart(rows, ['短期借款'], dataColL));
-    }
-  }
-}
-
-// ---- 利润表解析 ----
-function parsePL(rows) {
-  var dataCol = detectDataCol(rows, ['本年累计','本年累计数','本年累计金额','本期金额','本期数']);
-  setInputVal('f_营业收入', findSmart(rows, ['一、营业收入','营业收入','主营业务收入','营业总收入'], dataCol));
-  setInputVal('f_营业成本', findSmart(rows, ['营业成本','主营业务成本'], dataCol));
-  setInputVal('f_净利润', findSmart(rows, ['净利润','四、净利润','三、利润总额'], dataCol));
-  setInputVal('f_利息支出', findSmart(rows, ['财务费用','利息费用'], dataCol));
-  var depr = findSmart(rows, ['折旧与摊销','折旧','摊销','固定资产折旧','无形资产折旧'], dataCol);
-  if (depr > 0) setInputVal('f_折旧摊销', depr);
-}
-
-// ---- 现金流量表解析 ----
-function parseCF(rows) {
-  var dataCol = detectDataCol(rows, ['本年累计','本年累计数','本年累计金额','本期金额','本期数']);
-  setInputVal('f_经营流入', findSmart(rows, ['经营活动现金流入','销售商品提供劳务收到的现金','销售商品、提供劳务收到的现金','经营现金流入'], dataCol));
-  setInputVal('f_经营流出', findSmart(rows, ['经营活动现金流出','购买商品接受劳务支付的现金','购买商品、接受劳务支付的现金','经营现金流出'], dataCol));
-  setInputVal('f_投资净额', findSmart(rows, ['投资活动产生的现金流量净额','投资活动现金净额','投资净额'], dataCol));
-  setInputVal('f_筹资净额', findSmart(rows, ['筹资活动产生的现金流量净额','筹资活动现金净额','筹资净额'], dataCol));
-}
-
-function clearUpload() {
-  document.querySelectorAll('#panel-input input').forEach(el => el.value = '');
-  document.querySelectorAll('#panel-input select').forEach(el => { if (el.id !== 'f_收入下降' && el.id !== 'f_应收延期') el.selectedIndex = 0; });
-  document.getElementById('f_收入下降').value = '20';
-  document.getElementById('f_应收延期').value = '30';
-  document.getElementById('uploadStatus').textContent = '✅ 已清除所有数据';
-  document.getElementById('uploadStatus').style.color = '#888';
-}
-
-function downloadPDF(){
-  window.print();
-}
-</script>
-
-  <div style="text-align:center;padding:16px">
-    <a href="https://sparrow528.github.io/silver-toolbox/" style="display:inline-block;padding:10px 24px;background:#f1f5f9;color:#334155;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid #cbd5e1">← 返回银级会员入口</a>
-  </div>
-
-
-<div style="position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,.06);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:12px;color:#64748b;z-index:100">
-  <span style="font-weight:600;color:#334155">宇守信咨询</span>
-  <span style="color:#94a3b8">|</span>
-  <span>186-0129-4989</span>
-  <span style="color:#94a3b8">|</span>
-  <span>银级 V3.0</span>
-</div>
-
-</body>
-</html>
+    14|.tabs { display:flex; background:white; box-shadow:0 1px 4px rgba(0,0,0,0.08); position:sticky; top:0; z-index:10; }
+    15|.tab { flex:1; text-align:center; padding:14px 0; font-size:14px; font-weight:500; color:#888; cursor:pointer; border-bottom:3px solid transparent; transition:all .2s; }
+    16|.tab.active { color:#334155; border-bottom-color:#334155; }
+    17|.panel { display:none; padding:16px; }
+    18|.panel.active { display:block; }
+    19|.card { background:white; border-radius:12px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.06); margin-bottom:12px; }
+    20|.card-title { background:#f1f5f9; padding:10px 16px; font-size:13px; font-weight:600; color:#334155; border-bottom:1px solid #cbd5e1; }
+    21|.form-row { padding:10px 16px; border-bottom:1px solid #f5f5f5; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    22|.form-row label { font-size:13px; color:#444; min-width:150px; flex-shrink:0; }
+    23|.form-row input,.form-row select { padding:8px 12px; border:1px solid #e0e0e0; border-radius:8px; font-size:13px; flex:1; min-width:80px; max-width:200px; background:#fff8e1; line-height:44px; height:44px; }
+    24|.form-row input:focus,.form-row select:focus { outline:none; border-color:#64748b; }
+    25|.form-row .unit { font-size:12px; color:#888; }
+    26|.yesno { display:flex; gap:8px; }
+    27|.yesno span { padding:4px 16px; border-radius:16px; font-size:13px; cursor:pointer; border:1px solid #ddd; color:#666; }
+    28|.yesno span.sel-yes { background:linear-gradient(135deg,#334155,#475569); color:white; border-color:#64748b; }
+    29|.yesno span.sel-no { background:#e8ecf1; color:#999; border-color:#ddd; }
+    30|.fixed-bottom { position:sticky; bottom:0; background:white; padding:12px 16px; display:flex; gap:10px; box-shadow:0 -2px 8px rgba(0,0,0,0.06); z-index:10; }
+    31|.fixed-bottom button { flex:1; padding:12px; border-radius:10px; font-size:14px; font-weight:600; border:none; cursor:pointer; }
+    32|.btn-primary { background:linear-gradient(135deg,#334155,#475569); color:white; }
+    33|.btn-primary:hover { opacity:0.9; }
+    34|.btn-secondary { background:#e8ecf1; color:#555; }
+    35|
+    36|.return-bar { text-align:center; padding:16px; margin-top:4px; }
+    37|.return-bar a { display:inline-block; padding:10px 24px; background:#f8fafc; color:#475569; border-radius:8px; font-size:13px; font-weight:600; text-decoration:none; border:1px solid #94a3b8; transition:all .2s; }
+    38|.return-bar a:hover { background:#e2e8f0; }
+    39|
+    40|.table-header,.table-row { display:flex; padding:8px 12px; font-size:12px; border-bottom:1px solid #f0f0f0; }
+    41|.table-header { background:#f1f5f9; font-weight:600; color:#334155; }
+    42|.table-header span,.table-row span { flex:1; min-width:0; padding:0 4px; }
+    43|.table-row span:first-child { flex:1.2; }
+    44|.table-row span:nth-child(2) { flex:0.8; text-align:right; }
+    45|.table-row span:nth-child(3) { flex:0.8; text-align:center; }
+    46|.table-row span:nth-child(4) { flex:0.7; text-align:center; }
+    47|.table-row span:nth-child(5) { flex:0.6; text-align:center; }
+    48|
+    49|.score-card { background:linear-gradient(135deg,#334155,#475569); color:white; border-radius:16px; padding:28px 20px; text-align:center; margin-bottom:16px; }
+    50|.score-card .label { font-size:13px; opacity:0.85; }
+    51|.score-card .score { font-size:40px; font-weight:800; margin:6px 0; }
+    52|.score-card .grade { font-size:16px; font-weight:600; margin-bottom:4px; }
+    53|.score-card .suggestion { font-size:13px; opacity:0.9; line-height:1.6; }
+    54|.result-summary { background:linear-gradient(135deg,#334155,#475569); color:white; border-radius:16px; padding:28px 20px; text-align:center; margin-bottom:16px; }
+    55|.result-summary .row { display:flex; justify-content:space-around; margin-top:12px; flex-wrap:wrap; gap:8px; }
+    56|.result-summary .item { flex:1; min-width:100px; }
+    57|.result-summary .item .label { font-size:11px; opacity:0.85; }
+    58|.result-summary .item .val { font-size:22px; font-weight:800; margin:4px 0; }
+    59|.result-summary .item .sub { font-size:12px; opacity:0.85; }
+    60|
+    61|.dim-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+    62|.dim-card { background:white; border-radius:12px; padding:16px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+    63|.dim-card .name { font-size:12px; color:#888; margin-bottom:4px; }
+    64|.dim-card .dscore { font-size:20px; font-weight:700; }
+    65|.dim-card .dstatus { font-size:11px; margin-top:4px; padding:2px 10px; border-radius:10px; display:inline-block; }
+    66|.low { background:#e6f7e6; color:#64748b; }
+    67|.mid { background:#fef9e7; color:#d97706; }
+    68|.high { background:#feeaea; color:#dc2626; }
+    69|.pass { background:#e6f7e6; color:#64748b; }
+    70|.warn { background:#fef9e7; color:#d97706; }
+    71|.danger { background:#feeaea; color:#dc2626; }
+    72|.fail { background:#feeaea; color:#dc2626; }
+    73|.caution { background:#fef9e7; color:#d97706; }
+    74|.rate-green { background:#e6f7e6; color:#64748b; }
+    75|.rate-yellow { background:#fef9e7; color:#d97706; }
+    76|.rate-red { background:#feeaea; color:#dc2626; }
+    77|
+    78|.help-card { background:white; border-radius:12px; padding:20px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+    79|.help-card h3 { font-size:15px; margin-bottom:8px; color:#334155; }
+    80|.help-card p,.help-card li { font-size:13px; color:#555; line-height:1.8; }
+    81|.check-list { list-style:none; padding:0; }
+    82|.check-list li { padding:6px 0; font-size:13px; color:#444; border-bottom:1px solid #f5f5f5; display:flex; align-items:center; gap:8px; }
+    83|.check-list li:last-child { border-bottom:none; }
+    84|.detail-item { padding:12px 16px; border-bottom:1px solid #f5f5f5; display:flex; justify-content:space-between; align-items:center; }
+    85|.detail-item:last-child { border-bottom:none; }
+    86|.detail-item .dlabel { font-size:13px; color:#555; }
+    87|.detail-item .dval { font-size:14px; font-weight:600; }
+    88|.detail-item .dval.pass { color:#64748b; }
+    89|.detail-item .dval.warn { color:#d97706; }
+    90|.detail-item .dval.danger { color:#dc2626; }
+    91|.result-card { background:white; border-radius:12px; padding:16px; margin-bottom:8px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+    92|.result-card h3 { font-size:14px; color:#334155; margin-bottom:8px; }
+    93|.result-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #f5f5f5; font-size:13px; }
+    94|.result-row:last-child { border-bottom:none; }
+    95|.result-row .label { color:#555; }
+    96|.result-row .val { font-weight:600; }
+    97|.result-row.total { border-top:2px solid #334155; padding-top:8px; margin-top:4px; font-weight:700; }
+    98|.result-row.total .val { color:#334155; font-size:16px; }
+    99|.result-green { color:#64748b; }
+   100|.result-red { color:#dc2626; }
+   101|.result-orange { color:#d97706; }
+   102|
+   103|.member-banner { background:linear-gradient(135deg,#334155,#475569,#334155); border-radius:12px; padding:20px; text-align:center; margin-top:16px; }
+   104|.member-banner h3 { font-size:15px; color:white; margin-bottom:6px; }
+   105|.member-banner p { font-size:12px; color:rgba(255,255,255,0.85); line-height:1.6; }
+   106|.member-banner .btn { display:inline-block; background:white; color:#334155; padding:8px 24px; border-radius:20px; text-decoration:none; font-size:13px; font-weight:600; margin-top:8px; }
+   107|
+   108|.contact { background:#f8fafc; border-radius:8px; padding:12px; }
+   109|.contact strong { font-size:14px; color:#334155; }
+   110|.scenario-grid { display:flex; gap:8px; }
+   111|.scenario-btn { flex:1; padding:10px; border-radius:8px; font-size:13px; font-weight:600; border:2px solid #ddd; background:white; color:#888; cursor:pointer; text-align:center; transition:all .2s; }
+   112|.scenario-btn.active { border-color:#64748b; color:#334155; background:#f8fafc; }
+   113|.chart-area { background:white; border-radius:16px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,0.06); margin-bottom:16px; text-align:center; }
+   114|.chart-area canvas { max-width:100%; height:auto; }
+   115|.form-row input[type=range] { flex:1; min-width:120px; max-width:250px; accent-color:#64748b; }
+   116|.form-row .val { font-size:14px; font-weight:700; color:#334155; min-width:30px; text-align:right; }
+   117|.form-row .hint { font-size:11px; color:#999; }
+   118|.dim-card .bar-bg { position:absolute; bottom:0; left:0; height:4px; background:#e8ecf1; width:100%; }
+   119|.dim-card .bar-fill { position:absolute; bottom:0; left:0; height:4px; transition:width .5s; }
+   120|
+   121|@media (max-width:480px){.dim-grid{grid-template-columns:1fr 1fr}.result-summary .row{flex-direction:column;gap:4px}}
+   122|
+   123|
+   124|/* ===== 打印/PDF样式 ===== */
+   125|@media print {
+   126|  body { background:white !important; padding:0 !important; margin:0 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+   127|  .fixed-bottom, .no-print, .marketing, [class*="返回"], footer, .footer, #返回, .return-bar, .bottom-bar { display:none !important; }
+   128|  .header { background:linear-gradient(135deg,#334155,#475569) !important; color:white !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; padding:20px 16px !important; }
+   129|  .card, .dim-card, .check-item, .result-card { break-inside:avoid; page-break-inside:avoid; border:1px solid #ddd !important; box-shadow:none !important; }
+   130|  .score-card, .result-summary { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+   131|  .tabs { display:none !important; }
+   132|  .panel { display:block !important; padding:10px !important; }
+   133|  .dim-grid { display:grid !important; grid-template-columns:1fr 1fr !important; gap:8px !important; }
+   134|  .form-row { padding:6px 10px !important; }
+   135|  a[href]:after { content:none !important; }
+   136|}
+   137|
+   138|.pdf-btn { background:linear-gradient(135deg,#b8860b,#d4a843) !important; }
+   139|</style>
+   140|<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+   141|</head>
+   142|<body>
+   143|
+   144|<div class="header">
+   145|  <h1>💰 企业现金流压力测试 <span class="v3-badge">V3.0</span></h1>
+   146|  <p>流动性评估 · 现金循环 · 偿债压力 · 资金缺口</p>
+   147|  <div class="badge">您身边的财税专家 · 洪淳宇</div>
+   148|</div>
+   149|
+   150|<div class="tabs" id="tabNav">
+   151|  <div class="tab active" data-tab="input" onclick="switchTab('input')">📝 填数据</div>
+   152|  <div class="tab" data-tab="report" onclick="switchTab('report')">📊 测试报告</div>
+   153|  <div class="tab" data-tab="help" onclick="switchTab('help')">❓ 说明</div>
+   154|</div>
+   155|
+   156|<!-- ===== 数据录入 ===== -->
+   157|<div class="panel active" id="panel-input">
+   158|  <!-- ===== 新增：上传入口 ===== -->
+   159|  <div class="card" style="border:2px dashed #64748b;background:#f8fafc;">
+   160|    <div class="card-title" style="background:#f1f5f9;">📤 上传报表自动填入</div>
+   161|    <div class="form-row" style="flex-direction:column;align-items:stretch;gap:8px;">
+   162|      <div style="font-size:13px;color:#555;line-height:1.6;">
+   163|        上传资产负债表、利润表及现金流量表的<strong>Excel文件</strong>（.xls/.xlsx），
+   164|        自动识别数据并填入下方表单。<strong>支持分开上传</strong>，先传资产负债表再传利润表，数据不会覆盖。
+   165|      </div>
+   166|      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+   167|        <label style="flex:1;padding:12px 16px;background:#64748b;color:white;border-radius:8px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;">
+   168|          📂 选择Excel文件
+   169|          <input type="file" id="fileInput" accept=".xls,.xlsx" style="display:none;" onchange="parseExcel(event)">
+   170|        </label>
+   171|        <button onclick="clearUpload()" style="padding:12px 20px;background:#e8ecf1;color:#555;border:none;border-radius:8px;font-size:13px;cursor:pointer;">🗑️ 清除已导入数据</button>
+   172|      </div>
+   173|      <div id="uploadStatus" style="font-size:12px;color:#888;min-height:18px;margin-top:4px;"></div>
+   174|    </div>
+   175|  </div>
+   176|
+   177|  <div class="card">
+   178|    <div class="card-title">🏢 企业基础信息</div>
+   179|    <div class="form-row"><label>企业名称</label><input id="f_企业名称" placeholder="选填"></div>
+   180|    <div class="form-row"><label>所属行业</label>
+   181|      <select id="f_行业" style="padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;">
+   182|        <option value="制造业">制造业</option>
+   183|        <option value="商贸零售">商贸零售</option>
+   184|        <option value="服务业">服务业</option>
+   185|        <option value="建筑业">建筑业</option>
+   186|        <option value="房地产">房地产</option>
+   187|        <option value="科技">科技/信息技术</option>
+   188|        <option value="其他">其他</option>
+   189|      </select>
+   190|    </div>
+   191|  </div>
+   192|
+   193|  <div class="card">
+   194|    <div class="card-title">📊 资产负债表数据（万元）</div>
+   195|    <div class="form-row"><label>流动资产（期末）</label><input id="f_流动资产" type="number" placeholder="0"><span class="unit">万元</span></div>
+   196|    <div class="form-row"><label>其中：货币资金</label><input id="f_货币资金" type="number" placeholder="0"><span class="unit">万元</span></div>
+   197|    <div class="form-row"><label>应收账款（期末）</label><input id="f_应收账款" type="number" placeholder="0"><span class="unit">万元</span></div>
+   198|    <div class="form-row"><label>存货（期末）</label><input id="f_存货" type="number" placeholder="0"><span class="unit">万元</span></div>
+   199|    <div class="form-row"><label>应付账款（期末）</label><input id="f_应付账款" type="number" placeholder="0"><span class="unit">万元，用于计算周转天数</span></div>
+   200|    <div class="form-row"><label>流动负债（期末）</label><input id="f_流动负债" type="number" placeholder="0"><span class="unit">万元</span></div>
+   201|    <div class="form-row"><label>短期借款</label><input id="f_短期借款" type="number" placeholder="0"><span class="unit">万元</span></div>
+   202|    <div class="form-row"><label>负债总额（期末）</label><input id="f_负债总额" type="number" placeholder="0"><span class="unit">万元</span></div>
+   203|    <div class="form-row"><label>资产总额（期末）</label><input id="f_资产总额" type="number" placeholder="0"><span class="unit">万元</span></div>
+   204|  </div>
+   205|
+   206|  <div class="card">
+   207|    <div class="card-title">📈 利润表数据（当期，万元）</div>
+   208|    <div class="form-row"><label>营业收入（年化）</label><input id="f_营业收入" type="number" placeholder="0"><span class="unit">万元</span></div>
+   209|    <div class="form-row"><label>营业成本（年化）</label><input id="f_营业成本" type="number" placeholder="0"><span class="unit">万元</span></div>
+   210|    <div class="form-row"><label>净利润</label><input id="f_净利润" type="number" placeholder="0"><span class="unit">万元</span></div>
+   211|    <div class="form-row"><label>利息支出</label><input id="f_利息支出" type="number" placeholder="0"><span class="unit">万元</span></div>
+   212|    <div class="form-row"><label>折旧与摊销</label><input id="f_折旧摊销" type="number" placeholder="0"><span class="unit">万元</span></div>
+   213|  </div>
+   214|
+   215|  <div class="card">
+   216|    <div class="card-title">🔄 现金流数据（万元）</div>
+   217|    <div class="form-row"><label>经营活动现金流入</label><input id="f_经营流入" type="number" placeholder="0"><span class="unit">万元</span></div>
+   218|    <div class="form-row"><label>经营活动现金流出</label><input id="f_经营流出" type="number" placeholder="0"><span class="unit">万元</span></div>
+   219|    <div class="form-row"><label>投资活动现金净额</label><input id="f_投资净额" type="number" placeholder="0"><span class="unit">万元（正=流入）</span></div>
+   220|    <div class="form-row"><label>筹资活动现金净额</label><input id="f_筹资净额" type="number" placeholder="0"><span class="unit">万元（正=流入）</span></div>
+   221|  </div>
+   222|
+   223|  <div class="card">
+   224|    <div class="card-title">📅 营运周期数据（天） <span style="font-weight:400;font-size:12px;color:#888;">自动根据上方数据计算</span></div>
+   225|    <div class="form-row"><label>平均应收账款周转天数</label><input id="f_应收天数" type="number" placeholder="自动计算" readonly style="background:#f1f5f9;"><span class="unit">天</span></div>
+   226|    <div class="form-row"><label>平均应付账款周转天数</label><input id="f_应付天数" type="number" placeholder="自动计算" readonly style="background:#f1f5f9;"><span class="unit">天</span></div>
+   227|    <div class="form-row"><label>平均存货周转天数</label><input id="f_存货天数" type="number" placeholder="自动计算" readonly style="background:#f1f5f9;"><span class="unit">天</span></div>
+   228|  </div>
+   229|
+   230|  <div class="card">
+   231|    <div class="card-title">⚠️ 压力场景模拟</div>
+   232|    <div class="form-row">
+   233|      <label>假设收入下降</label>
+   234|      <select id="f_收入下降" style="padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;">
+   235|        <option value="0">无压力</option>
+   236|        <option value="10">下降10%</option>
+   237|        <option value="20" selected>下降20%</option>
+   238|        <option value="30">下降30%</option>
+   239|        <option value="50">下降50%</option>
+   240|      </select>
+   241|      <span class="hint">模拟收入下滑对现金流的影响</span>
+   242|    </div>
+   243|    <div class="form-row">
+   244|      <label>应收账款延期</label>
+   245|      <select id="f_应收延期" style="padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;">
+   246|        <option value="0">无延期</option>
+   247|        <option value="15">延期15天</option>
+   248|        <option value="30" selected>延期30天</option>
+   249|        <option value="60">延期60天</option>
+   250|        <option value="90">延期90天</option>
+   251|      </select>
+   252|      <span class="hint">模拟回款变慢对现金循环的影响</span>
+   253|    </div>
+   254|  </div>
+   255|
+   256|  <div class="fixed-bottom">
+   257|    <button class="btn-secondary" onclick="resetAll()">清空</button>
+   258|    <button class="btn-primary" onclick="calcReport()">📊 开始测试</button>
+   259|  </div>
+   260|
+   261|  </div>
+   262|</div>
+   263|  <div class="return-bar">
+   264|    <a href="https://sparrow528.github.io/silver-toolbox/">← 返回银级工具入口</a>
+   265|  </div>
+   266|</div>
+   267|
+   268|<!-- ===== 测试报告 ===== -->
+   269|<div class="panel" id="panel-report">
+   270|  <div id="scoreCard" class="score-card">
+   271|    <div class="label">现金流健康评分</div>
+   272|    <div class="score">—</div>
+   273|    <div class="grade">请先在「填数据」页面录入数据</div>
+   274|    <div class="suggestion"></div>
+   275|  </div>
+   276|  <div id="dimGrid" class="dim-grid"></div>
+   277|  <div id="stressNote" style="margin-bottom:12px;font-size:12px;color:#888;text-align:center;"></div>
+   278|  <div class="card">
+   279|    <div class="card-title">📋 各项指标明细</div>
+   280|    <div class="indicator-table">
+   281|      <div class="table-header">
+   282|        <span>指标</span><span>实际值</span><span>健康标准</span><span>行业参考</span><span>状态</span>
+   283|      </div>
+   284|      <div id="indicatorRows"></div>
+   285|    </div>
+   286|  </div>
+   287|  <div class="fixed-bottom">
+   288|    <button class="btn-secondary" onclick="switchTab('input')">← 修改数据</button>
+   289|    <button class="btn-primary" onclick="shareResult()">📤 分享报告</button>
+   290|  </div>
+   291|  <div class="return-bar">
+   292|    <a href="https://sparrow528.github.io/silver-toolbox/">← 返回银级工具入口</a>
+   293|  </div>
+   294|</div>
+   295|
+   296|<!-- ===== 说明 ===== -->
+   297|<div class="panel" id="panel-help">
+   298|  <div class="help-card">
+   299|    <h3>📋 使用方法</h3>
+   300|    <ol>
+   301|      <li>在「填数据」页录入资产负债表、利润表、现金流等数据</li>
+   302|      <li>选择压力场景参数（收入下降比例、应收账款延期天数）</li>
+   303|      <li>点击「开始测试」，系统自动计算并评估现金流健康度</li>
+   304|    </ol>
+   305|  </div>
+   306|  <div class="help-card">
+   307|    <h3>📊 评估维度</h3>
+   308|    <ul>
+   309|      <li><strong>流动性</strong> — 流动比率、速动比率、现金比率</li>
+   310|      <li><strong>现金循环周期</strong> — 应收+存货-应付，天数越短越好</li>
+   311|      <li><strong>现金流质量</strong> — 经营现金流/营业收入，利润现金保障倍数</li>
+   312|      <li><strong>偿债能力</strong> — 利息保障倍数、经营现金流/流动负债</li>
+   313|      <li><strong>资金压力</strong> — 收入下降+应收延期后的压力测试结果</li>
+   314|    </ul>
+   315|  </div>
+   316|  <div class="help-card">
+   317|    <h3>🟢 评分规则</h3>
+   318|    <p><span class="status-green">✓ 健康</span> — 指标在安全范围内，得满分</p>
+   319|    <p><span class="status-yellow">⚠ 关注</span> — 指标偏离安全范围，得60%分</p>
+   320|    <p><span class="status-red">✗ 风险</span> — 指标严重偏离，得分较低</p>
+   321|  </div>
+   322|  <div class="help-card">
+   323|    <h3>👤 关于作者</h3>
+   324|    <div class="contact">
+   325|      <strong>洪淳宇 · 您身边的财税专家</strong>
+   326|      <p>专注企业现金流管理、财务健康诊断、税务合规与筹划</p>
+   327|      <p style="margin-top:6px;">📞 186-0129-4989 | 💬 hongchunyu042896</p>
+   328|    </div>
+   329|  </div>
+   330|  <div class="return-bar">
+   331|    <a href="https://sparrow528.github.io/silver-toolbox/">← 返回银级工具入口</a>
+   332|  </div>
+   333|</div>
+   334|
+   335|<script>
+   336|// ===== 行业标准参考值 =====
+   337|const INDUSTRY_STD = {
+   338|  "制造业": {
+   339|    "流动比率": {std:"1.5~2.5", avg:1.8},
+   340|    "速动比率": {std:"≥ 0.8", avg:0.9},
+   341|    "现金比率": {std:"≥ 0.3", avg:0.35},
+   342|    "现金循环周期": {std:"≤ 90天", avg:75},
+   343|    "应收周转": {std:"≤ 60天", avg:55},
+   344|    "存货周转": {std:"≤ 90天", avg:80},
+   345|    "经营现金流占比": {std:"≥ 8%", avg:10},
+   346|    "利润现金保障": {std:"≥ 0.8", avg:1.0},
+   347|    "利息保障": {std:"≥ 3.0", avg:4.0},
+   348|    "经营现金流偿债": {std:"≥ 15%", avg:18},
+   349|    "资产负债率": {std:"30%~60%", avg:50},
+   350|  },
+   351|  "商贸零售": {
+   352|    "流动比率": {std:"1.2~2.0", avg:1.5},
+   353|    "速动比率": {std:"≥ 0.6", avg:0.7},
+   354|    "现金比率": {std:"≥ 0.2", avg:0.25},
+   355|    "现金循环周期": {std:"≤ 45天", avg:35},
+   356|    "应收周转": {std:"≤ 30天", avg:25},
+   357|    "存货周转": {std:"≤ 45天", avg:40},
+   358|    "经营现金流占比": {std:"≥ 5%", avg:6},
+   359|    "利润现金保障": {std:"≥ 0.6", avg:0.8},
+   360|    "利息保障": {std:"≥ 2.0", avg:3.0},
+   361|    "经营现金流偿债": {std:"≥ 10%", avg:12},
+   362|    "资产负债率": {std:"40%~70%", avg:60},
+   363|  },
+   364|  "服务业": {
+   365|    "流动比率": {std:"1.3~2.2", avg:1.6},
+   366|    "速动比率": {std:"≥ 0.9", avg:1.0},
+   367|    "现金比率": {std:"≥ 0.3", avg:0.4},
+   368|    "现金循环周期": {std:"≤ 30天", avg:20},
+   369|    "应收周转": {std:"≤ 30天", avg:25},
+   370|    "存货周转": {std:"≤ 30天", avg:20},
+   371|    "经营现金流占比": {std:"≥ 10%", avg:12},
+   372|    "利润现金保障": {std:"≥ 1.0", avg:1.2},
+   373|    "利息保障": {std:"≥ 4.0", avg:5.0},
+   374|    "经营现金流偿债": {std:"≥ 20%", avg:22},
+   375|    "资产负债率": {std:"30%~55%", avg:45},
+   376|  },
+   377|  "建筑业": {
+   378|    "流动比率": {std:"1.3~2.0", avg:1.5},
+   379|    "速动比率": {std:"≥ 0.7", avg:0.8},
+   380|    "现金比率": {std:"≥ 0.2", avg:0.25},
+   381|    "现金循环周期": {std:"≤ 120天", avg:100},
+   382|    "应收周转": {std:"≤ 90天", avg:75},
+   383|    "存货周转": {std:"≤ 120天", avg:100},
+   384|    "经营现金流占比": {std:"≥ 5%", avg:6},
+   385|    "利润现金保障": {std:"≥ 0.5", avg:0.7},
+   386|    "利息保障": {std:"≥ 2.0", avg:2.5},
+   387|    "经营现金流偿债": {std:"≥ 10%", avg:12},
+   388|    "资产负债率": {std:"50%~75%", avg:65},
+   389|  },
+   390|  "房地产": {
+   391|    "流动比率": {std:"1.5~2.5", avg:1.8},
+   392|    "速动比率": {std:"≥ 0.5", avg:0.6},
+   393|    "现金比率": {std:"≥ 0.2", avg:0.25},
+   394|    "现金循环周期": {std:"≤ 180天", avg:150},
+   395|    "应收周转": {std:"≤ 60天", avg:50},
+   396|    "存货周转": {std:"≤ 365天", avg:300},
+   397|    "经营现金流占比": {std:"≥ 5%", avg:6},
+   398|    "利润现金保障": {std:"≥ 0.5", avg:0.6},
+   399|    "利息保障": {std:"≥ 2.0", avg:2.5},
+   400|    "经营现金流偿债": {std:"≥ 10%", avg:12},
+   401|    "资产负债率": {std:"50%~70%", avg:60},
+   402|  },
+   403|  "科技": {
+   404|    "流动比率": {std:"1.8~3.0", avg:2.2},
+   405|    "速动比率": {std:"≥ 1.2", avg:1.5},
+   406|    "现金比率": {std:"≥ 0.5", avg:0.6},
+   407|    "现金循环周期": {std:"≤ 60天", avg:50},
+   408|    "应收周转": {std:"≤ 45天", avg:40},
+   409|    "存货周转": {std:"≤ 60天", avg:50},
+   410|    "经营现金流占比": {std:"≥ 12%", avg:15},
+   411|    "利润现金保障": {std:"≥ 1.2", avg:1.5},
+   412|    "利息保障": {std:"≥ 5.0", avg:6.0},
+   413|    "经营现金流偿债": {std:"≥ 25%", avg:28},
+   414|    "资产负债率": {std:"25%~50%", avg:40},
+   415|  },
+   416|  "其他": {}
+   417|};
+   418|function getIndStd(indName, indicatorName) {
+   419|  const ind = INDUSTRY_STD[indName] || {};
+   420|  const v = ind[indicatorName];
+   421|  return v ? {std:v.std, avg:v.avg} : getDefaultStd(indicatorName);
+   422|}
+   423|function getDefaultStd(name) {
+   424|  const m = {
+   425|    "流动比率":{std:"≥ 2.0",avg:2.0},"速动比率":{std:"≥ 1.0",avg:1.0},"现金比率":{std:"≥ 0.3",avg:0.3},
+   426|    "现金循环周期":{std:"≤ 60天",avg:60},"应收周转":{std:"≤ 45天",avg:45},"存货周转":{std:"≤ 60天",avg:60},
+   427|    "经营现金流占比":{std:"≥ 10%",avg:10},"利润现金保障":{std:"≥ 1.0",avg:1.0},"利息保障":{std:"≥ 2.0",avg:2.0},
+   428|    "经营现金流偿债":{std:"≥ 20%",avg:20},"资产负债率":{std:"≤ 50%",avg:50},
+   429|  };
+   430|  return m[name] || {std:"—",avg:null};
+   431|}
+   432|
+   433|// ===== 指标定义 =====
+   434|function getINDICATORS() {
+   435|  var indName = document.getElementById('f_行业') ? document.getElementById('f_行业').value : '其他';
+   436|  return [
+   437|  {
+   438|    id:"流动比率", dim:"流动性", name:"流动比率", unit:"", maxScore:5,
+   439|    calc: d => d.流动资产 > 0 && d.流动负债 > 0 ? d.流动资产 / d.流动负债 : null,
+   440|    green: v => v >= 2.0, yellow: v => v >= 1.0,
+   441|    std: getIndStd(indName, '流动比率').std
+   442|  },
+   443|  {
+   444|    id:"速动比率", dim:"流动性", name:"速动比率", unit:"", maxScore:5,
+   445|    calc: d => d.流动资产 > 0 && d.存货 !== null && d.流动负债 > 0 ? (d.流动资产 - d.存货) / d.流动负债 : null,
+   446|    green: v => v >= 1.0, yellow: v => v >= 0.5,
+   447|    std: getIndStd(indName, '速动比率').std
+   448|  },
+   449|  {
+   450|    id:"现金比率", dim:"流动性", name:"现金比率", unit:"", maxScore:4,
+   451|    calc: d => d.货币资金 > 0 && d.流动负债 > 0 ? d.货币资金 / d.流动负债 : null,
+   452|    green: v => v >= 0.5, yellow: v => v >= 0.2,
+   453|    std: getIndStd(indName, '现金比率').std
+   454|  },
+   455|  {
+   456|    id:"现金循环周期", dim:"现金循环", name:"现金循环周期", unit:"天", maxScore:5,
+   457|    calc: d => (d.应收天数 > 0 || d.存货天数 > 0 || d.应付天数 > 0) ? d.应收天数 + d.存货天数 - d.应付天数 : null,
+   458|    green: v => v <= 60, yellow: v => v <= 120,
+   459|    std: getIndStd(indName, '现金循环周期').std
+   460|  },
+   461|  {
+   462|    id:"应收周转", dim:"现金循环", name:"应收账款周转天数", unit:"天", maxScore:3,
+   463|    calc: d => d.应收天数 > 0 ? d.应收天数 : null,
+   464|    green: v => v <= 45, yellow: v => v <= 90,
+   465|    std: getIndStd(indName, '应收周转').std
+   466|  },
+   467|  {
+   468|    id:"存货周转", dim:"现金循环", name:"存货周转天数", unit:"天", maxScore:3,
+   469|    calc: d => d.存货天数 > 0 ? d.存货天数 : null,
+   470|    green: v => v <= 60, yellow: v => v <= 120,
+   471|    std: getIndStd(indName, '存货周转').std
+   472|  },
+   473|  {
+   474|    id:"经营现金流占比", dim:"现金流质量", name:"经营现金流/营业收入", unit:"%", maxScore:5,
+   475|    calc: d => d.营业收入 > 0 && (d.经营流入 !== null || d.经营流出 !== null) ? (d.经营流入 - d.经营流出) / d.营业收入 * 100 : null,
+   476|    green: v => v >= 10, yellow: v => v >= 5,
+   477|    std: getIndStd(indName, '经营现金流占比').std
+   478|  },
+   479|  {
+   480|    id:"利润现金保障", dim:"现金流质量", name:"利润现金保障倍数", unit:"", maxScore:4,
+   481|    calc: d => d.净利润 !== 0 ? (d.经营流入 - d.经营流出) / d.净利润 : null,
+   482|    green: v => v >= 1.0, yellow: v => v >= 0.5,
+   483|    std: getIndStd(indName, '利润现金保障').std
+   484|  },
+   485|  {
+   486|    id:"利息保障", dim:"偿债能力", name:"利息保障倍数", unit:"", maxScore:5,
+   487|    calc: d => d.利息支出 > 0 ? (d.净利润 + d.利息支出) / d.利息支出 : null,
+   488|    green: v => v >= 5, yellow: v => v >= 2,
+   489|    std: getIndStd(indName, '利息保障').std
+   490|  },
+   491|  {
+   492|    id:"经营现金流偿债", dim:"偿债能力", name:"经营现金流/流动负债", unit:"%", maxScore:4,
+   493|    calc: d => d.流动负债 > 0 && (d.经营流入 !== null || d.经营流出 !== null) ? (d.经营流入 - d.经营流出) / d.流动负债 * 100 : null,
+   494|    green: v => v >= 20, yellow: v => v >= 10,
+   495|    std: getIndStd(indName, '经营现金流偿债').std
+   496|  },
+   497|  {
+   498|    id:"资产负债率", dim:"偿债能力", name:"资产负债率", unit:"%", maxScore:3,
+   499|    calc: d => d.资产总额 > 0 ? d.负债总额 / d.资产总额 * 100 : null,
+   500|    green: v => v <= 50, yellow: v => v <= 70,
+   501|
